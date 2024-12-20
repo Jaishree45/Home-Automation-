@@ -11,18 +11,18 @@
 // Provide the RTDB payload printing info and other helper functions.
 #include <addons/RTDBHelper.h>
  
-#define WIFI_SSID "Redmi 6a"
-#define WIFI_PASSWORD "Vinod@9050"
+#define WIFI_SSID "Your_Wifi_Name"
+#define WIFI_PASSWORD "Password"
 
 // Insert Firebase project API Key
-#define API_KEY "AIzaSyDGSgK6x72oBvmRYT_yaqQqCQeCgEa7Z6I"
+#define API_KEY " Fill Api From Firebase"
 
 // Insert RTDB URL
-#define DATABASE_URL "https://esp8266test-fa10b-default-rtdb.firebaseio.com/"
+#define DATABASE_URL "https://Project.firebaseio.com/"
 
 // Define the user Email and password that already registered or added in your project
-#define USER_EMAIL "jaishree@gmail.com"
-#define USER_PASSWORD "12345678"
+#define USER_EMAIL "User in Firebase"
+#define USER_PASSWORD "Password"
 
 // Define Firebase Data object
 FirebaseData fbdo;
