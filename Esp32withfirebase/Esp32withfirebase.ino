@@ -11,20 +11,20 @@
 // Provide the RTDB payload printing info and other helper functions.
 #include <addons/RTDBHelper.h>
  
-#define WIFI_SSID "Your_Wifi_Name"
+#define WIFI_SSID "Wifi_name"
 #define WIFI_PASSWORD "Password"
 
 // Insert Firebase project API Key
-#define API_KEY " Fill Api From Firebase"
+#define API_KEY "APY_Key"
 
 // Insert RTDB URL
-#define DATABASE_URL "https://Project.firebaseio.com/"
+#define DATABASE_URL "Database_url"
 
 // Define the user Email and password that already registered or added in your project
-#define USER_EMAIL "User in Firebase"
+#define USER_EMAIL "username"
 #define USER_PASSWORD "Password"
 
-// Define Firebase Data object
+
 FirebaseData fbdo;
 
 FirebaseAuth auth;
@@ -38,12 +38,28 @@ unsigned long count = 0;
 #define DHTTYPE DHT11   // DHT 11
 
 DHT dht(DHTPIN, DHTTYPE);
-int LED1_PIN = 2;
-int LED2_PIN = 4 ;
-int LED3_PIN = 16 ;
-int LED4_PIN = 17 ;
+int LED1_PIN = 22;
+int LED2_PIN = 21;
+int LED3_PIN = 19;  
+int LED4_PIN = 32;
+
+int BUTTON1_PIN = 23;
+int BUTTON2_PIN = 26;
+int BUTTON3_PIN = 27;
+int BUTTON4_PIN = 14;
+
+bool led1State = LOW;
+bool led2State = LOW;
+bool led3State = LOW;
+bool led4State = LOW;
+
+bool button1LastState = HIGH;
+bool button2LastState = HIGH;
+bool button3LastState = HIGH;
+bool button4LastState = HIGH;
+ 
 Servo servo;
-#define SERVO_PIN 18
+#define SERVO_PIN 33
 
 void setup()
 {
@@ -58,12 +74,18 @@ void setup()
   pinMode(LED2_PIN,OUTPUT);
   pinMode(LED3_PIN,OUTPUT);
   pinMode(LED4_PIN,OUTPUT);
+  pinMode(BUTTON1_PIN, INPUT_PULLUP);
+  pinMode(BUTTON2_PIN, INPUT_PULLUP);
+  pinMode(BUTTON3_PIN, INPUT_PULLUP);
+  pinMode(BUTTON4_PIN, INPUT_PULLUP);
+
+  
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.print(".");
-    delay(300);
+  
   }
   Serial.println();
   Serial.print("Connected with IP: ");
@@ -132,8 +154,36 @@ void loop()
 {
   // Handle OTA updates
   ArduinoOTA.handle();
+   bool button1State = digitalRead(BUTTON1_PIN);
+  if (button1State == LOW && button1LastState == HIGH) {
+    led1State = !led1State;
+    digitalWrite(LED1_PIN, led1State);
+  }
+  button1LastState = button1State;
 
-  // Firebase.ready() should be called repeatedly to handle authentication tasks.
+  // Check button 2 state
+  bool button2State = digitalRead(BUTTON2_PIN);
+  if (button2State == LOW && button2LastState == HIGH) {
+    led2State = !led2State;
+    digitalWrite(LED2_PIN, led2State);
+  }
+  button2LastState = button2State;
+
+  // Check button 3 state
+  bool button3State = digitalRead(BUTTON3_PIN);
+  if (button3State == LOW && button3LastState == HIGH) {
+    led3State = !led3State;
+    digitalWrite(LED3_PIN, led3State);
+  }
+  button3LastState = button3State;
+
+  // Check button 4 state
+  bool button4State = digitalRead(BUTTON4_PIN);
+  if (button4State == LOW && button4LastState == HIGH) {
+    led4State = !led4State;
+    digitalWrite(LED4_PIN, led4State);
+  }
+  button4LastState = button4State;
 
   if (Firebase.ready() && (millis() - sendDataPrevMillis > 2000 || sendDataPrevMillis == 0))
   {
